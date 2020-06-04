@@ -1,8 +1,17 @@
 #include <iostream>
+#include <string>
 using namespace std;
 
-int main() {
+class account {
 
+    int accountNumber;
+    char actHoldrName[50];
+    int deposit;
+    char type;   //checking or savings account.
+
+};
+
+int main() {
     //Main menu 
 
     cout << "---------- MAIN MENU ----------" << endl;
@@ -15,6 +24,12 @@ int main() {
     cout << "           07. MODIFY AND ACCOUNT" << endl;
     cout << "           08. EXIT" << endl;
     cout << "-------------------------------" << endl;
+
+    //User inputs
+    int i;
+    cout << "Selet Your Option <1-8>: ";  
+    cin >> i;
+
 
 
 }
