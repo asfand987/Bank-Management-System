@@ -3,12 +3,14 @@
 using namespace std;
 
 class account {
-
     int accountNumber;
-    char actHoldrName[50];
+    char actHolderName[50];
     int deposit;
     char type;   //checking or savings account.
 
+
+public:
+    void create_account();              //create new account.
 };
 
 int main() {
@@ -27,9 +29,10 @@ int main() {
 
     //User inputs
     int i;
-    cout << "Selet Your Option <1-8>: ";  
+    cout << "Select Your Option <1-8>: ";  
     cin >> i;
+}
 
-
-
+void account::create_account() {
+    
 }
