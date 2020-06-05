@@ -1,10 +1,13 @@
 #include <iostream>
 #include <string>
 #include<fstream>
+#include <chrono>
+#include <thread>
+
 using namespace std;
 
 class account {
-    int accountNumber;
+    int acnt;
     char actHolderName[50];
     int deposit;
     char type;   //checking or savings account.
@@ -12,15 +15,14 @@ class account {
 
 public:
     void create_account(); 
-    void deposit();             
-    //3
-    void balance_enquiry();
+    int return_account() const;
+    void show_account() const;
 };
 
 void account::create_account()
 {
 	cout  <<  "\n Enter The account No. :";
-	cin >> accountNumber;
+	cin >> acnt;
 	
     cout << "\n\n Enter The Name of The account Holder : ";
 	cin.ignore();
@@ -35,12 +37,20 @@ void account::create_account()
 	cout << "\n\n\n Account Created......Press Any Key To Continue..." << endl;
 }
 
-
+int account::return_account() const {
+    return acnt;
 }
+
+void account::show_account() const
+{
+	
+}
+
 
 
 void write_account();
 void intro();
+void display_balance(int);
 
 int main() {
     //Main menu
@@ -74,8 +84,13 @@ int main() {
 			write_account();
 			break;
         case '2': 
+
         case '3': 
         case '4': 
+            cout << "\n\n\t Enter The account No. : ";
+            cin >> num;   //user enters account no.
+			display_balance(num);
+			break;
         case '5': 
         case '6': 
         case '7': 
@@ -92,6 +107,7 @@ int main() {
 void write_account() {
     account ac;
 	ofstream outFile;
+    //outFile.open("test.txt");
 	outFile.open("account.dat",ios::binary|ios::app);
 	ac.create_account();
 	outFile.write(reinterpret_cast<char *> (&ac), sizeof(account));
@@ -106,6 +122,28 @@ void write_account() {
 	outFile.close();*/
 }
 
+
+//4
+void display_balance(int n) {
+    account ac;
+    ifstream inFile;
+	inFile.open("account.dat",ios::binary);
+
+    if(!inFile) {
+        cout<<"File could not be open !! Press any Key...";
+		return;
+        /*cout << "Account " << n << " does not exist." << endl;
+        cout << endl;
+        cout <<"You Will Now Be Redirected Back To Main Menu..." << endl;
+        chrono::seconds dura( 2);
+        this_thread::sleep_for( dura );
+      
+        return;*/
+    }
+
+    cout << "BANK DETAILS DISPLAYED DOWN BELOW" << endl;
+
+}
 
 void intro()
 {
