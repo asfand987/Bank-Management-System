@@ -146,6 +146,7 @@ void deposit_amount(int n) {
     int amount;
     fstream File;
     File.open("account.dat", ios::binary|ios::in|ios::out);
+    bool found = false;
 
     while(!File.eof()) {
         File.read(reinterpret_cast<char *> (&ac), sizeof(account));
@@ -156,9 +157,9 @@ void deposit_amount(int n) {
 
             int pos=(-1)*static_cast<int>(sizeof(ac));
 			File.seekp(pos,ios::cur);       //sets the position where the next character is to be inserted
-
+            found = true;
             File.write(reinterpret_cast<char *> (&ac), sizeof(account));
-	    	cout<<"\n\n\t Record Updated";
+	    	cout<<"\n\n\t Record Updated, Press Any Key To Continue...";
            break;
         }
 
@@ -166,6 +167,9 @@ void deposit_amount(int n) {
     }
 
     File.close();
+    if(found == false) {
+        cout << "Record Does Not Exist..."
+    }
 }
 
 //4
