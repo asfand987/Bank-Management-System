@@ -86,7 +86,7 @@ void intro();
 void display_balance(int);
 void deposit_amount(int);
 void withdraw_amount(int);
-void close_account(int);
+void close_account();
 
 int main() {
     //Main menu
@@ -136,9 +136,7 @@ int main() {
 			break;
         case '5': 
         case '6': 
-            cout << "\n\n\t Enter The account No. : ";
-            cin >> num;   //user enters account no.
-			display_balance(num);
+            close_account();
 			break;
         case '7': 
         case '8':   
@@ -266,31 +264,44 @@ void display_balance(int n) {
 }
 
 //6
-void close_account(int n) {
+void close_account() {
     account ac;
     int b;
+    char c;
 
-    cout << "Enter account you want to delete : " <<  endl;
+    bool confirm = false;
+
+    cout << "Enter Account You Want To Delete: ";
     cin >> b;
 
+    cout << "Are You Sure You Want To Delete Your Account? (y/n)" << endl;
+    cin >> c;
+
+    if(c == 'n') {
+        cout << "Account Will Not Be Deleted, Press Any Key To Return To Main Menu...";
+        return;
+    }
     ifstream inFile;
-    inFile.open("account.dat",ios::binary);
     ofstream newFile;
+
+    inFile.open("account.dat",ios::binary);
     newFile.open("temp.dat",ios::binary);
 
-    inFile.seekg(0,ios::beg);
+    inFile.seekg(0,ios::beg);               //start at first pos.
     
     while(inFile.read(reinterpret_cast<char *> (&ac), sizeof(account))) {
-        if(ac.return_account() != n) {
+        if(ac.return_account() != b) {
             newFile.write(reinterpret_cast<char *> (&ac), sizeof(account));
         }
     }
 
     inFile.close();
     newFile.close();
-    cout << "Account deleted";
+
     remove("account.dat");
     rename("temp.dat", "account.dat");
+
+    cout << "Account Successfully Closed, Press Any Key To Return To Main Menu...";
 }
 
 void intro()
