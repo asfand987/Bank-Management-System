@@ -36,29 +36,34 @@ void account::create_account()
 	cin.ignore();
 	cin.getline(actHolderName,50);
 	
-    cout << "\n Enter Type of The account (C/S) : ";
-	cin >> type;
-	type = toupper(type);
+    cout << "\n Enter Type of The account (c/s) : ";
+	cin >> tempCh;
+
+    if((tempCh != 'c') || (tempCh != 's')) {
+        cout << "Incorrect Account Type Enterred, Please Enter Correct Type (c/s) : ";
+        cin >> type;
+    }
+	//type = toupper(type);
 	
     cout << "\n Enter The Initial amount(>=500 for Saving and >=1000 for current ) : ";
 	cin >> temp;
-    if((type == 'C') && (temp >= 1000)) {
+    if((type == 'c') && (temp >= 1000)) {
 	    cout << "\n\n\n Current Account Created......Press Any Key To Continue..." << endl;
     }
-    if((type == 'S') && (temp >= 500)) {
+    else if((type == 's') && (temp >= 500)) {
 	    cout << "\n\n\n Savings Account Created......Press Any Key To Continue..." << endl;
     }
-    else if((type == 'S') && (temp < 500)) {
-        cout << "Minimum deposit required for 'S' Account Is 500, Please Enter Your Deposit Again: ";
+    else if((type == 'c') && (temp < 1000)) {
+        cout << "Minimum deposit required for 's' Account Is 1000, Please Enter Your Deposit Again: ";
         cin >> temp;
         deposit = temp;
-        cout << "Savings Account Created, Press Any Key To Continue..." << endl;
+        cout << "Current Account Created, Press Any Key To Continue..." << endl;
     }
-    else if((type == 'C') && (temp < 1000)) {
-        cout << "Minimum deposit required for 'C' Account Is 1000, Please Enter Your Deposit Again: ";
+    else if((type == 's') && (temp < 500)) {
+        cout << "Minimum deposit required for 's' Account Is 500, Please Enter Your Deposit Again: ";
         cin >> temp;
         deposit = temp;
-        cout << " Current Account Created, Press Any Key To Continue..." << endl;
+        cout << " Savings Account Created, Press Any Key To Continue..." << endl;
     }
     else {
         cout << "Error, Please Press Any Key To Continue...";
