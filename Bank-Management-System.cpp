@@ -17,6 +17,7 @@ public:
     void create_account(); 
     int return_account() const;
     void show_account() const;
+    void depo(int);
 };
 
 void account::create_account()
@@ -53,9 +54,19 @@ void account::show_account() const {
     cout << "--------------------------------" << endl;
 }
 
+void account::depo(int n) {
+    cout << deposit << "1 " << endl;
+    deposit = deposit + n;
+    cout << deposit << "2 " << endl;
+}
+
+//----------------------------------------------------------------------
+
 void write_account();
 void intro();
 void display_balance(int);
+void deposit_amount(int);
+
 
 int main() {
     //Main menu
@@ -88,7 +99,11 @@ int main() {
 			write_account();
 			break;
         case '2': 
-
+            cout << "\n\n\t Enter The account No. : ";
+            //cout << "\n\n\t Enter The Deposit Amount You Would Like To Make: ";
+            cin >> num;
+            deposit_amount(num);
+            break;
         case '3': 
         case '4': 
             cout << "\n\n\t Enter The account No. : ";
@@ -106,7 +121,6 @@ int main() {
 	}   while(ch!='8');
 	return 0;
 }
-
 
 void write_account() {
     account ac;
@@ -126,6 +140,28 @@ void write_account() {
 	outFile.close();*/
 }
 
+//2
+void deposit_amount(int n) {
+    account ac;
+    int amount;
+    fstream File;
+    File.open("account.dat", ios::binary|ios::in|ios::out);
+
+    while(!File.eof()) {
+        File.read(reinterpret_cast<char *> (&ac), sizeof(account));
+        if((ac.return_account() == n) && (n > 0)) {
+            cout << "Enter Deposit Amount: " << endl;
+            cin >> amount;
+            ac.depo(amount);
+        }
+
+        File.write(reinterpret_cast<char *> (&ac), sizeof(account));
+		cout<<"\n\n\t Record Updated";
+			//found=true;
+    }
+
+    File.close();
+}
 
 //4
 void display_balance(int n) {
@@ -138,13 +174,6 @@ void display_balance(int n) {
     if(!inFile) {
         cout<<"File could not be open !! Press any Key To Continue...";
 		return;
-        /*cout << "Account " << n << " does not exist." << endl;
-        cout << endl;
-        cout <<"You Will Now Be Redirected Back To Main Menu..." << endl;
-        chrono::seconds dura( 2);
-        this_thread::sleep_for( dura );
-      
-        return;*/
     }
 
     cout << endl;
