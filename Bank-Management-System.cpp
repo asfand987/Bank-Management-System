@@ -41,12 +41,17 @@ int account::return_account() const {
     return acnt;
 }
 
-void account::show_account() const
-{
-	
+void account::show_account() const {
+    cout << "--------------------------------" << endl;
+	cout << "        BALANCE ENQUIRY" << endl;
+    cout << endl;
+    cout << "        Account: " << acnt << endl;
+    cout << "        Account Holder Name: " << actHolderName << endl;
+    cout << "        Account Type: " << type << endl;
+    cout << endl;
+    cout << "        BALANCE: " << deposit << endl;
+    cout << "--------------------------------" << endl;
 }
-
-
 
 void write_account();
 void intro();
@@ -59,8 +64,7 @@ int main() {
 	int num;
 	intro();
 
-	do
-	{
+	do  {
 		//system("cls");
 		cout << "---------- MAIN MENU ----------" << endl;
         cout << "           01. NEW ACCOUNT" << endl;
@@ -99,7 +103,7 @@ int main() {
 		}
 		cin.ignore();
 		cin.get();
-	}while(ch!='8');
+	}   while(ch!='8');
 	return 0;
 }
 
@@ -128,9 +132,11 @@ void display_balance(int n) {
     account ac;
     ifstream inFile;
 	inFile.open("account.dat",ios::binary);
+    
+    bool found = false;
 
     if(!inFile) {
-        cout<<"File could not be open !! Press any Key...";
+        cout<<"File could not be open !! Press any Key To Continue...";
 		return;
         /*cout << "Account " << n << " does not exist." << endl;
         cout << endl;
@@ -141,8 +147,25 @@ void display_balance(int n) {
         return;*/
     }
 
-    cout << "BANK DETAILS DISPLAYED DOWN BELOW" << endl;
+    cout << endl;
 
+    while(inFile.read(reinterpret_cast<char *> (&ac), sizeof(account)))  //reinterpret_cast<char *> (&ac) = treating &ac as a char 
+    {
+        if(ac.return_account() == n) {
+            found = true;
+            ac.show_account(); 
+        }
+      
+	}
+
+    if(found == false) {
+         cout << endl;
+            cout << "Account Does Not Exist In Database..." << endl;
+    }
+
+    cout << endl;
+    cout << "Press Any Key To Continue...";
+    inFile.close(); 
 }
 
 void intro()
