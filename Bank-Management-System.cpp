@@ -273,16 +273,24 @@ void close_account(int n) {
     cout << "Enter account you want to delete : " <<  endl;
     cin >> b;
 
-    ifstream d;
-    d.open("account.dat",ios::binary);
-    ofstream e;
-    e.open("temp.dat",ios::binary);
+    ifstream inFile;
+    inFile.open("account.dat",ios::binary);
+    ofstream newFile;
+    newFile.open("temp.dat",ios::binary);
+
+    inFile.seekg(0,ios::beg);
     
-    while(!d.eof()) {
-        if(ac.return_account() == n) {
-            
+    while(inFile.read(reinterpret_cast<char *> (&ac), sizeof(account))) {
+        if(ac.return_account() != n) {
+            newFile.write(reinterpret_cast<char *> (&ac), sizeof(account));
         }
     }
+
+    inFile.close();
+    newFile.close();
+    cout << "Account deleted";
+    remove("account.dat");
+    rename("temp.dat", "account.dat");
 }
 
 void intro()
