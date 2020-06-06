@@ -58,11 +58,22 @@ void account::show_account() const {
 void account::depo(int n) {
     //cout << deposit << "1 " << endl;
     deposit = deposit + n;
+    cout << "      Amount Succesfully Deposited, Press Any Key To Continue...";
     //cout << deposit << "2 " << endl;
+    //cout<<"\n\n\t Record Updated, Press Any Key To Continue...";
 }
 
 void account::withdraw(int n) {
+    int temp = deposit;
     deposit = deposit - n;
+
+    if(deposit < 0) {
+        deposit = temp;
+        cout << "      Withdrawal Failed Due To Insufficient Funds, Press Any Key To Continue...";
+    }
+    else {
+        cout <<"      Withdrawal Successful, Press Any Key To Continue...";
+    }
 }
 
 //----------------------------------------------------------------------
@@ -168,7 +179,7 @@ void deposit_amount(int n) {
 			File.seekp(pos,ios::cur);       //sets the position where the next character is to be inserted to prevent copys.
             found = true;
             File.write(reinterpret_cast<char *> (&ac), sizeof(account));
-	    	cout<<"\n\n\t Record Updated, Press Any Key To Continue...";
+	    	//cout<<"\n\n\t Record Updated, Press Any Key To Continue...";
             break;
         }
 
@@ -201,7 +212,6 @@ void withdraw_amount(int n) {
 			File.seekp(pos,ios::cur);       //sets the position where the next character is to be inserted to prevent copys.
             found = true;
             File.write(reinterpret_cast<char *> (&ac), sizeof(account));
-	    	cout<<"\n\n\t Record Updated, Press Any Key To Continue...";
             break;
         }
     }
