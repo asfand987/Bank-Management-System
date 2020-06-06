@@ -17,7 +17,8 @@ public:
     void create_account(); 
     int return_account() const;
     void show_account() const;
-    void depo(int);
+    void depo(int);   //deposit
+    void withdraw(int);
 };
 
 void account::create_account()
@@ -55,9 +56,13 @@ void account::show_account() const {
 }
 
 void account::depo(int n) {
-    cout << deposit << "1 " << endl;
+    //cout << deposit << "1 " << endl;
     deposit = deposit + n;
-    cout << deposit << "2 " << endl;
+    //cout << deposit << "2 " << endl;
+}
+
+void account::withdraw(int n) {
+    deposit = deposit - n;
 }
 
 //----------------------------------------------------------------------
@@ -66,7 +71,7 @@ void write_account();
 void intro();
 void display_balance(int);
 void deposit_amount(int);
-
+void withdraw_amount(int);
 
 int main() {
     //Main menu
@@ -105,6 +110,10 @@ int main() {
             deposit_amount(num);
             break;
         case '3': 
+            cout << "\n\n\t Enter The account No. : ";
+            cin >> num;
+            withdraw_amount(num);
+            break;
         case '4': 
             cout << "\n\n\t Enter The account No. : ";
             cin >> num;   //user enters account no.
@@ -156,11 +165,11 @@ void deposit_amount(int n) {
             ac.depo(amount);
 
             int pos=(-1)*static_cast<int>(sizeof(ac));
-			File.seekp(pos,ios::cur);       //sets the position where the next character is to be inserted
+			File.seekp(pos,ios::cur);       //sets the position where the next character is to be inserted to prevent copys.
             found = true;
             File.write(reinterpret_cast<char *> (&ac), sizeof(account));
 	    	cout<<"\n\n\t Record Updated, Press Any Key To Continue...";
-           break;
+            break;
         }
 
 			//found=true;
@@ -168,9 +177,41 @@ void deposit_amount(int n) {
 
     File.close();
     if(found == false) {
-        cout << "Record Does Not Exist..."
+        cout << "Record Does Not Exist... Press Any Key To Continue...";
     }
 }
+
+//3
+void withdraw_amount(int n) {
+    account ac; 
+    int withdraw_amnt;
+    fstream File;
+    File.open("account.dat", ios::binary|ios::in|ios::out);
+    bool found = false;
+
+    while(!File.eof()) {
+        File.read(reinterpret_cast<char *> (&ac), sizeof(account));
+        if(ac.return_account() == n) {
+
+            cout << "Enter Amount You Would Like To Withdraw: ";
+            cin >> withdraw_amnt;
+            ac.withdraw(withdraw_amnt);
+
+            int pos=(-1)*static_cast<int>(sizeof(ac));
+			File.seekp(pos,ios::cur);       //sets the position where the next character is to be inserted to prevent copys.
+            found = true;
+            File.write(reinterpret_cast<char *> (&ac), sizeof(account));
+	    	cout<<"\n\n\t Record Updated, Press Any Key To Continue...";
+            break;
+        }
+    }
+
+    File.close();
+    if(found == false) {
+        cout << "Record Does Not Exist... Press Any Key To Continue...";
+    }
+}
+
 
 //4
 void display_balance(int n) {
