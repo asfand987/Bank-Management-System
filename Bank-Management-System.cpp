@@ -26,6 +26,9 @@ public:
 
 void account::create_account()
 {
+    int temp;
+    char tempCh;
+
 	cout  <<  "\n Enter The account No. :";
 	cin >> acnt;
 	
@@ -38,8 +41,29 @@ void account::create_account()
 	type = toupper(type);
 	
     cout << "\n Enter The Initial amount(>=500 for Saving and >=1000 for current ) : ";
-	cin >> deposit;
-	cout << "\n\n\n Account Created......Press Any Key To Continue..." << endl;
+	cin >> temp;
+    if((type == 'C') && (temp >= 1000)) {
+	    cout << "\n\n\n Current Account Created......Press Any Key To Continue..." << endl;
+    }
+    if((type == 'S') && (temp >= 500)) {
+	    cout << "\n\n\n Savings Account Created......Press Any Key To Continue..." << endl;
+    }
+    else if((type == 'S') && (temp < 500)) {
+        cout << "Minimum deposit required for 'S' Account Is 500, Please Enter Your Deposit Again: ";
+        cin >> temp;
+        deposit = temp;
+        cout << "Savings Account Created, Press Any Key To Continue..." << endl;
+    }
+    else if((type == 'C') && (temp < 1000)) {
+        cout << "Minimum deposit required for 'C' Account Is 1000, Please Enter Your Deposit Again: ";
+        cin >> temp;
+        deposit = temp;
+        cout << " Current Account Created, Press Any Key To Continue..." << endl;
+    }
+    else {
+        cout << "Error, Please Press Any Key To Continue...";
+    }
+
 }
 
 int account::return_account() const {
