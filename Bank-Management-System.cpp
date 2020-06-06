@@ -150,13 +150,18 @@ void deposit_amount(int n) {
     while(!File.eof()) {
         File.read(reinterpret_cast<char *> (&ac), sizeof(account));
         if((ac.return_account() == n) && (n > 0)) {
-            cout << "Enter Deposit Amount: " << endl;
+            cout << "Enter Deposit Amount: ";
             cin >> amount;
             ac.depo(amount);
+
+            int pos=(-1)*static_cast<int>(sizeof(ac));
+			File.seekp(pos,ios::cur);       //sets the position where the next character is to be inserted
+
+            File.write(reinterpret_cast<char *> (&ac), sizeof(account));
+	    	cout<<"\n\n\t Record Updated";
+           break;
         }
 
-        File.write(reinterpret_cast<char *> (&ac), sizeof(account));
-		cout<<"\n\n\t Record Updated";
 			//found=true;
     }
 
