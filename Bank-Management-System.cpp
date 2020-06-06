@@ -7,6 +7,7 @@
 using namespace std;
 
 class account {
+
     int acnt;
     char actHolderName[50];
     int deposit;
@@ -20,6 +21,8 @@ public:
     void depo(int);   //deposit
     void withdraw(int);
 };
+
+//-------------------------------------------------------------------
 
 void account::create_account()
 {
@@ -58,7 +61,7 @@ void account::show_account() const {
 void account::depo(int n) {
     //cout << deposit << "1 " << endl;
     deposit = deposit + n;
-    cout << "      Amount Succesfully Deposited, Press Any Key To Continue...";
+    cout << "      Amount Successfully Deposited, Press Any Key To Continue...";
     //cout << deposit << "2 " << endl;
     //cout<<"\n\n\t Record Updated, Press Any Key To Continue...";
 }
@@ -83,6 +86,7 @@ void intro();
 void display_balance(int);
 void deposit_amount(int);
 void withdraw_amount(int);
+void close_account(int);
 
 int main() {
     //Main menu
@@ -132,6 +136,10 @@ int main() {
 			break;
         case '5': 
         case '6': 
+            cout << "\n\n\t Enter The account No. : ";
+            cin >> num;   //user enters account no.
+			display_balance(num);
+			break;
         case '7': 
         case '8':   
 		default : cout<<"\a";
@@ -255,6 +263,26 @@ void display_balance(int n) {
     cout << endl;
     cout << "Press Any Key To Continue...";
     inFile.close(); 
+}
+
+//6
+void close_account(int n) {
+    account ac;
+    int b;
+
+    cout << "Enter account you want to delete : " <<  endl;
+    cin >> b;
+
+    ifstream d;
+    d.open("account.dat",ios::binary);
+    ofstream e;
+    e.open("temp.dat",ios::binary);
+    
+    while(!d.eof()) {
+        if(ac.return_account() == n) {
+            
+        }
+    }
 }
 
 void intro()
