@@ -120,7 +120,7 @@ void account::withdraw(int n) {
 void account::modify() {
     char ch;
     
-    cout << "Do You Want To Change Your Account No.? (y/n) :";
+    cout << "Do You Want To Change Your Account No.? (y/n): ";
     cin >> ch;
 
     if(ch == 'y') {
@@ -128,12 +128,21 @@ void account::modify() {
         //int temp;
         cout << "Enter New Account No. : ";
         cin >> acnt;
-        cout << "Account No. Successfully Changed To :" << acnt << endl;
+        cout << "Account No. Successfully Changed To: " << acnt << endl;
         //acnt = i;
         cout << "Press Any Key To Continue...";
     }
+    cin.ignore();
+    
+    cout <<"Do You Want To Change The Account Holder's Name? (y/n): ";
+    cin >> ch;
+    if(ch == 'y') {
+        cout << "Enter New Account Holder Name: ";
+        cin >> actHolderName;
+        cout << "Account Holder Name Successully Changed. Press Any Key To Continue...";
+    }
     else {
-
+        cout << "Should Be No...";
     }
 }
 //----------------------------------------------------------------------
@@ -319,6 +328,9 @@ void modify_account() {
        File.read(reinterpret_cast<char *> (&ac), sizeof(account));
        if(ac.return_account() == b) {
            ac.modify();
+       }
+       else {
+           cout << "Account Does Not Exist, Press Any Key To Continue...";
        }
 
         int pos=(-1)*static_cast<int>(sizeof(ac)); //...
