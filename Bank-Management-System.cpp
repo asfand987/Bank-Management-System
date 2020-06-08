@@ -28,7 +28,7 @@ public:
 
 void account::create_account()
 {
-    int temp;
+    int &temp = deposit;
     char tempCh;
 
 	cout  <<  "\n Enter The account No. :";
@@ -41,7 +41,7 @@ void account::create_account()
     cout << "\n Enter Type of The account (c/s) : ";
 	cin >> tempCh;
 
-    if((tempCh != 'c') || (tempCh != 's')) {
+    if((tempCh != 'c') && (tempCh != 's')) {
         cout << "Incorrect Account Type Enterred, Please Enter Correct Type (c/s) : ";
         cin >> type;
     }
@@ -99,13 +99,18 @@ void account::depo(int n) {
 
 void account::withdraw(int n) {
     int temp = deposit;
-    deposit = deposit - n;
+    int &checkValue = deposit;
+    checkValue = checkValue - n;
+    //deposit = deposit - n;
 
-    if(deposit < 0) {
-        deposit = temp;
+    if(checkValue < 0) {
+        //deposit = temp;
+        //cout << temp << " " << checkValue;
         cout << "      Withdrawal Failed Due To Insufficient Funds, Press Any Key To Continue...";
     }
     else {
+        deposit = checkValue;
+        cout << deposit << endl;
         cout <<"      Withdrawal Successful, Press Any Key To Continue...";
     }
 }
@@ -124,7 +129,7 @@ void account::modify() {
         cin >> ch;
         if (ch == 'y') {
             acnt = i;
-            cout << "Account No. Successfullly Changed"; 
+            cout << "Account No. Successfullly Changed To : " << acnt; 
         }
     }
     else {
@@ -140,67 +145,6 @@ void deposit_amount(int);
 void withdraw_amount(int);
 void close_account();
 void modify_account();
-
-int main() {
-    //Main menu
-
-    char ch;
-	int num;
-	intro();
-
-	do  {
-		//system("cls");
-		cout << "---------- MAIN MENU ----------" << endl;
-        cout << "           01. NEW ACCOUNT" << endl;
-        cout << "           02. DEPOSIT" << endl;
-        cout << "           03. WITHDRAW" << endl;
-        cout << "           04. BALANCE ENQUIRY" << endl;
-        cout << "           05. ALL ACCOUNT HOLDER LIST" << endl;
-        cout << "           06. CLOSE AN ACCOUNT" << endl;
-        cout << "           07. MODIFY AND ACCOUNT" << endl;
-        cout << "           08. EXIT" << endl;
-        cout << "-------------------------------" << endl;
-
-        //User inputs
-        cout << "Select Your Option <1-8>: ";  
-        cin >> ch;
-        
-		//system("cls");
-		switch(ch)
-		{
-		case '1':
-			write_account();
-			break;
-        case '2': 
-            cout << "\n\n\t Enter The account No. : ";
-            //cout << "\n\n\t Enter The Deposit Amount You Would Like To Make: ";
-            cin >> num;
-            deposit_amount(num);
-            break;
-        case '3': 
-            cout << "\n\n\t Enter The account No. : ";
-            cin >> num;
-            withdraw_amount(num);
-            break;
-        case '4': 
-            cout << "\n\n\t Enter The account No. : ";
-            cin >> num;   //user enters account no.
-			display_balance(num);
-			break;
-        case '5': 
-        case '6': 
-            close_account();
-			break;
-        case '7': 
-
-        case '8':   
-		default : cout<<"\a";
-		}
-		cin.ignore();
-		cin.get();
-	}   while(ch!='8');
-	return 0;
-}
 
 void write_account() {
     account ac;
@@ -359,6 +303,7 @@ void close_account() {
     cout << "Account Successfully Closed, Press Any Key To Return To Main Menu...";
 }
 
+//7
 void modify_account() {
     account ac;
     fstream File;
@@ -372,11 +317,12 @@ void modify_account() {
 
     while(File.read(reinterpret_cast<char *> (&ac), sizeof(account))) {
        if(ac.return_account() == b) {
-           modify();
+           ac.modify();
        }
     }
 
 }
+
 void intro()
 {
 	cout << "\n\n\n\t  BANK";
@@ -386,4 +332,66 @@ void intro()
 	cout << "\n\nPRESS ENTER TO CONTINUE: ";
     cout << endl;
 	cin.get();
+}
+
+int main() {
+    //Main menu
+
+    char ch;
+	int num;
+	intro();
+
+	do  {
+		//system("cls");
+		cout << "---------- MAIN MENU ----------" << endl;
+        cout << "           01. NEW ACCOUNT" << endl;
+        cout << "           02. DEPOSIT" << endl;
+        cout << "           03. WITHDRAW" << endl;
+        cout << "           04. BALANCE ENQUIRY" << endl;
+        cout << "           05. ALL ACCOUNT HOLDER LIST" << endl;
+        cout << "           06. CLOSE AN ACCOUNT" << endl;
+        cout << "           07. MODIFY AND ACCOUNT" << endl;
+        cout << "           08. EXIT" << endl;
+        cout << "-------------------------------" << endl;
+
+        //User inputs
+        cout << "Select Your Option <1-8>: ";  
+        cin >> ch;
+        
+		//system("cls");
+		switch(ch)
+		{
+		case '1':
+			write_account();
+			break;
+        case '2': 
+            cout << "\n\n\t Enter The account No. : ";
+            //cout << "\n\n\t Enter The Deposit Amount You Would Like To Make: ";
+            cin >> num;
+            deposit_amount(num);
+            break;
+        case '3': 
+            cout << "\n\n\t Enter The account No. : ";
+            cin >> num;
+            withdraw_amount(num);
+            break;
+        case '4': 
+            cout << "\n\n\t Enter The account No. : ";
+            cin >> num;   //user enters account no.
+			display_balance(num);
+			break;
+        case '5': 
+        case '6': 
+            close_account();
+			break;
+        case '7': 
+            modify_account();
+            break;
+        case '8':   
+		default : cout<<"\a";
+		}
+		cin.ignore();
+		cin.get();
+	}   while(ch!='8');
+	return 0;
 }
