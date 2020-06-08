@@ -92,7 +92,8 @@ void account::show_account() const {
 void account::depo(int n) {
     //cout << deposit << "1 " << endl;
     deposit = deposit + n;
-    cout << "      Amount Successfully Deposited, Press Any Key To Continue...";
+    cout << "Amount Successfully Deposited, New Balance : " << deposit << endl;
+    cout << "Press Any Key To Continue...";
     //cout << deposit << "2 " << endl;
     //cout<<"\n\n\t Record Updated, Press Any Key To Continue...";
 }
@@ -123,15 +124,13 @@ void account::modify() {
     cin >> ch;
 
     if(ch == 'y') {
-        int i;
-        cout << "Enter Account No. You Would Like To Change To : ";
-        cin >> i;
-        cout << "Change Account No. From " << acnt << " To " << i << ". Confirm? (y/n) : ";
-        cin >> ch;
-        if (ch == 'y') {
-            acnt = i;
-            cout << "Account No. Successfullly Changed To : " << acnt; 
-        }
+        //int &i = acnt;
+        //int temp;
+        cout << "Enter New Account No. : ";
+        cin >> acnt;
+        cout << "Account No. Successfully Changed To :" << acnt << endl;
+        //acnt = i;
+        cout << "Press Any Key To Continue...";
     }
     else {
 
@@ -316,11 +315,20 @@ void modify_account() {
 
     File.open("account.dat", ios::binary|ios::in|ios::out);
 
-    while(File.read(reinterpret_cast<char *> (&ac), sizeof(account))) {
+     while(!File.eof()) {
+       File.read(reinterpret_cast<char *> (&ac), sizeof(account));
        if(ac.return_account() == b) {
            ac.modify();
        }
+
+        int pos=(-1)*static_cast<int>(sizeof(ac)); //...
+		File.seekp(pos,ios::cur);       //sets the position where the next character is to be inserted to prevent copys.
+        //found = true;
+        File.write(reinterpret_cast<char *> (&ac), sizeof(account));
+        break;
     }
+
+    File.close();
 
 }
 
