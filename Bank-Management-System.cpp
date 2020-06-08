@@ -106,6 +106,7 @@ void account::withdraw(int n) {
     if(checkValue < 0) {
         //deposit = temp;
         //cout << temp << " " << checkValue;
+        checkValue = checkValue + n;
         cout << "      Withdrawal Failed Due To Insufficient Funds, Press Any Key To Continue...";
     }
     else {
