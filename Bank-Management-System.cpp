@@ -20,6 +20,8 @@ public:
     void show_account() const;
     void depo(int);   //deposit
     void withdraw(int);
+    void modify();
+   
 };
 
 //-------------------------------------------------------------------
@@ -108,6 +110,27 @@ void account::withdraw(int n) {
     }
 }
 
+void account::modify() {
+    char ch;
+    
+    cout << "Do You Want To Change Your Account No.? (y/n) :";
+    cin >> ch;
+
+    if(ch == 'y') {
+        int i;
+        cout << "Enter Account No. You Would Like To Change To : ";
+        cin >> i;
+        cout << "Change Account No. From " << acnt << " To " << i << ". Confirm? (y/n) : ";
+        cin >> ch;
+        if (ch == 'y') {
+            acnt = i;
+            cout << "Account No. Successfullly Changed"; 
+        }
+    }
+    else {
+
+    }
+}
 //----------------------------------------------------------------------
 
 void write_account();
@@ -116,6 +139,7 @@ void display_balance(int);
 void deposit_amount(int);
 void withdraw_amount(int);
 void close_account();
+void modify_account();
 
 int main() {
     //Main menu
@@ -168,6 +192,7 @@ int main() {
             close_account();
 			break;
         case '7': 
+
         case '8':   
 		default : cout<<"\a";
 		}
@@ -298,7 +323,7 @@ void close_account() {
     int b;
     char c;
 
-    bool confirm = false;
+    //bool confirm = false;
 
     cout << "Enter Account You Want To Delete: ";
     cin >> b;
@@ -310,6 +335,7 @@ void close_account() {
         cout << "Account Will Not Be Deleted, Press Any Key To Return To Main Menu...";
         return;
     }
+
     ifstream inFile;
     ofstream newFile;
 
@@ -333,6 +359,24 @@ void close_account() {
     cout << "Account Successfully Closed, Press Any Key To Return To Main Menu...";
 }
 
+void modify_account() {
+    account ac;
+    fstream File;
+    int b;
+
+    cout << "Enter The Account You Want To Modify: ";
+    cin >> b;
+
+
+    File.open("account.dat", ios::binary|ios::in|ios::out);
+
+    while(File.read(reinterpret_cast<char *> (&ac), sizeof(account))) {
+       if(ac.return_account() == b) {
+           modify();
+       }
+    }
+
+}
 void intro()
 {
 	cout << "\n\n\n\t  BANK";
