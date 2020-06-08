@@ -362,14 +362,14 @@ int main() {
 	int num;
 	intro();
 
-	do  {
+	do {
 		//system("cls");
 		cout << "---------- MAIN MENU ----------" << endl;
         cout << "           01. NEW ACCOUNT" << endl;
         cout << "           02. DEPOSIT" << endl;
         cout << "           03. WITHDRAW" << endl;
         cout << "           04. BALANCE ENQUIRY" << endl;
-        cout << "           05. ALL ACCOUNT HOLDER LIST" << endl;
+        cout << "           05. TRANSFERS" << endl;
         cout << "           06. CLOSE AN ACCOUNT" << endl;
         cout << "           07. MODIFY ACCOUNT" << endl;
         cout << "           08. EXIT" << endl;
@@ -415,6 +415,6 @@ int main() {
 		}
 		cin.ignore();
 		cin.get();
-	}   while(ch!='8');
+	}   while(ch != '8');
 	return 0;
 }
