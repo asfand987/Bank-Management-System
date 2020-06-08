@@ -409,6 +409,8 @@ int main() {
             modify_account();
             break;
         case '8':   
+            cout << "Closing Application..." << endl;
+            exit(0);
 		default : cout<<"\a";
 		}
 		cin.ignore();
