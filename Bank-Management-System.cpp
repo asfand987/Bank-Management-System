@@ -402,6 +402,7 @@ int main() {
 			display_balance(num);
 			break;
         case '5': 
+            //Must only be possible if two accounts exists.
         case '6': 
             close_account();
 			break;
