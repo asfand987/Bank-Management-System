@@ -8,11 +8,12 @@ using namespace std;
 
 class account {
 
-public:
-    int acnt;
+   int acnt;
     char actHolderName[50];
     int deposit;
     char type;   //checking or savings account.
+
+public:
 
 account() {
     int acnt = 1;
@@ -159,6 +160,7 @@ void account::modify() {
     
 };
 
+
 //----------------------------------------------------------------------
 
 void write_account();
@@ -168,6 +170,7 @@ void deposit_amount(int);
 void withdraw_amount(int);
 void close_account();
 void modify_account();
+void transfer_money();
 
 void write_account() {
     account ac;
@@ -286,7 +289,6 @@ void display_balance(int n) {
 
 //5
 
-
 //6
 void close_account() {
     account ac;
@@ -387,10 +389,9 @@ int main() {
         cout << "           02. DEPOSIT" << endl;
         cout << "           03. WITHDRAW" << endl;
         cout << "           04. BALANCE ENQUIRY" << endl;
-        cout << "           05. TRANSFERS" << endl;
-        cout << "           06. CLOSE AN ACCOUNT" << endl;
-        cout << "           07. MODIFY ACCOUNT" << endl;
-        cout << "           08. EXIT" << endl;
+        cout << "           05. CLOSE AN ACCOUNT" << endl;
+        cout << "           06. MODIFY ACCOUNT" << endl;
+        cout << "           07. EXIT" << endl;
         cout << "-------------------------------" << endl;
 
         //User inputs
@@ -420,15 +421,12 @@ int main() {
 			display_balance(num);
 			break;
         case '5': 
-            
-            break;
-        case '6': 
             close_account();
 			break;
-        case '7': 
+        case '6': 
             modify_account();
             break;
-        case '8':   
+        case '7':   
             cout << "Closing Application..." << endl;
             exit(0);
 		default : cout<<"\a";
