@@ -542,7 +542,7 @@ int main() {
             display_all();
             break;
         case '8':   
-            cout << "Closing Application, goodbye..." << endl;
+            cout << "Closing application, goodbye..." << endl;
             exit(0);
 		default : cout<<"\a";
 		}
