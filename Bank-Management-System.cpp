@@ -39,13 +39,12 @@ account(int id, char actHolderName, int balance, char type) {
     void display_accounts();
 };
 
-//-------------------------------------------------------------------
+//------------------------------------------------------------------------------------------------------------------------------
 
-
-void account::create_account()
-{
-    //int &temp = debalanceposit;
-    char tempCh;
+/***    
+ * Function which displays the interface to the user who can then input the required values in order to make a new account.
+***/
+void account::create_account()  {
 
 	cout  <<  "\n Enter The account No. :";
 	cin >> id;
@@ -64,34 +63,9 @@ void account::create_account()
 
     cout << "\n Enter Initial Deposit Amount: ";
     cin >> balance;
-    cout << "\n Deposit Amount: " << balance << " Successful." << endl;
-    cout << "Press Any Key To Continue...";
 
-	//type = toupper(type);
-	
-    /*cout << "\n Enter The Initial amount(>=500 for Saving and >=1000 for current ) : ";
-	cin >> temp;
-    if((type == 'c') && (temp >= 1000)) {
-	    cout << "\n\n\n Current Account Created......Press Any Key To Continue..." << endl;
-    }
-    else if((type == 's') && (temp >= 500)) {
-	    cout << "\n\n\n Savings Account Created......Press Any Key To Continue..." << endl;
-    }
-    else if((type == 'c') && (temp < 1000)) {
-        cout << "Minimum deposit required for 's' Account Is 1000, Please Enter Your Deposit Again: ";
-        cin >> temp;
-        deposit = temp;
-        cout << "Current Account Created, Press Any Key To Continue..." << endl;
-    }
-    else if((type == 's') && (temp < 500)) {
-        cout << "Minimum deposit required for 's' Account Is 500, Please Enter Your Deposit Again: ";
-        cin >> temp;
-        deposit = temp;
-        cout << " Savings Account Created, Press Any Key To Continue..." << endl;
-    }
-    else {
-        cout << "Error, Please Press Any Key To Continue...";
-    }*/
+    cout << "\n Deposit Amount: " << balance << " Successful." << endl;
+    cout << "\n Press Any Key To Continue...";
 
 }
 
@@ -190,22 +164,18 @@ void modify_account();
 void transfer_money();
 void display_all();
 
+/***
+ * Function which wrties the data that the user entered in @create_account() into the "account.dat" file.
+***/
 void write_account() {
     account ac;
 	ofstream outFile;
-    //outFile.open("test.txt");
+
 	outFile.open("account.dat",ios::binary|ios::app);
 	ac.create_account();
+
 	outFile.write(reinterpret_cast<char *> (&ac), sizeof(account));
 	outFile.close();
-
-    /*cout << "Testing :" << endl;
-    account ac;
-	ofstream outFile;
-	outFile.open("list.txt",ios::binary|ios::app);
-	ac.create_account();
-	outFile.write(reinterpret_cast<char *> (&ac), sizeof(account));
-	outFile.close();*/
 }
 
 //2
