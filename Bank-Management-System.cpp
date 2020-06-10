@@ -512,11 +512,11 @@ int main() {
         cout << "Select Your Option <1-8>: ";  
         cin >> ch;
         
-		switch(ch)
-		{
-		case '1':
-			write_account();
-			break;
+	switch(ch)
+	{
+	case '1':
+	    write_account();
+	    break;
         case '2': 
             cout << "\n\n\t Enter The account No. : ";
             cin >> id;
@@ -534,7 +534,7 @@ int main() {
 	    break;
         case '5': 
             close_account();
-			break;
+	    break;
         case '6': 
             modify_account();
             break;
@@ -544,10 +544,10 @@ int main() {
         case '8':   
             cout << "Closing application, goodbye..." << endl;
             exit(0);
-		default : cout<<"\a";
-		}
-		cin.ignore();
-		cin.get();
-	}   while(ch != '8');
+	    default : cout<<"\a";
+	}
+	cin.ignore();
+	cin.get();
+    }   while(ch != '8');
 	return 0;
 }
