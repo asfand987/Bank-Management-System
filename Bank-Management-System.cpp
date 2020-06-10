@@ -52,15 +52,15 @@ account(int id, char actHolderName, int balance, char type) {
 ***/
 void account::create_account()  {
 
-	cout  <<  "\n         Enter The account No. : ";
-	cin >> id;
+    cout  <<  "\n         Enter The account No. : ";
+    cin >> id;
 	
     cout << "\n         Enter The Name of The account Holder : ";
-	cin.ignore();
-	cin.getline(actHolderName,50);
+    cin.ignore(); 
+    cin.getline(actHolderName,50);
 	
     cout << "\n         Enter Type of The account (c/s) : ";
-	cin >> type;
+    cin >> type;
 
     if((type != 'c') && (type != 's')) {
         cout << "       Incorrect Account Type Enterred, Please Enter Correct Type (c/s) : ";
@@ -90,7 +90,7 @@ int account::return_account() const {
 void account::show_account() const {
 
     cout << "--------------------------------" << endl;
-	cout << "        ACCOUNT ENQUIRY" << endl;
+    cout << "        ACCOUNT ENQUIRY" << endl;
     cout << endl;
     cout << "        Account ID: " << id << endl;
     cout << "        Account Holder Name: " << actHolderName << endl;
@@ -122,8 +122,7 @@ void account::withdraw(int n) {
     int &checkValue = balance;
     checkValue = checkValue - n;
 
-    if(checkValue < 0) {
-        
+    if(checkValue < 0) {    
         checkValue = checkValue + n;
         cout << "         Withdrawal Failed Due To Insufficient Funds, Press Any Key To Continue..." << endl;
     }
@@ -183,7 +182,7 @@ void account::display_accounts() {
 
 
 //-----------------------------------------------------------------------------------------------------------------------
-//Functions used in @Main().
+//Functions used in @main().
 
 /***
  * Information user sees upon starting the program.
@@ -232,13 +231,13 @@ void display_all();
 ***/
 void intro()
 {
-	cout << "\n\n\n\t  BANK";
-	cout << "\n\n\tMANAGEMENT";
-	cout << "\n\n\t  SYSTEM";
-	cout << "\n\n\n\nMADE BY : ASFAND KHAN";
-	cout << "\n\nPRESS ENTER TO CONTINUE: ";
+    cout << "\n\n\n\t  BANK";
+    cout << "\n\n\tMANAGEMENT";
+    cout << "\n\n\t  SYSTEM";
+    cout << "\n\n\n\nMADE BY : ASFAND KHAN";
+    cout << "\n\nPRESS ENTER TO CONTINUE: ";
     cout << endl;
-	cin.get();
+    cin.get();
 }
 
 /***
@@ -247,14 +246,14 @@ void intro()
 ***/
 void write_account() {
     account ac;
-	ofstream outFile;
+    ofstream outFile;
 
-	outFile.open("account.dat",ios::binary|ios::app);
-	ac.create_account();
+    outFile.open("account.dat",ios::binary|ios::app);
+    ac.create_account();
 
-	outFile.write(reinterpret_cast<char *> (&ac), sizeof(account));
+    outFile.write(reinterpret_cast<char *> (&ac), sizeof(account));
 
-	outFile.close();
+    outFile.close();
 }
 
 /***
@@ -350,7 +349,7 @@ void display_actInfo(int n) {
     account ac;
     ifstream inFile;
 
-	inFile.open("account.dat",ios::binary);
+    inFile.open("account.dat",ios::binary);
     
     bool found = false;
 
@@ -373,7 +372,7 @@ void display_actInfo(int n) {
 
     if(found == false) {
          cout << endl;
-            cout << "Account Does Not Exist In Database..." << endl;
+         cout << "Account Does Not Exist In Database..." << endl;
     }
 
     cout << endl;
@@ -492,14 +491,14 @@ int main() {
     //Main menu
 
     char ch;
-	int id;
+    int id;
     int account;
 
 	intro();
 
 	do {
 
-		cout << "---------- MAIN MENU ----------" << endl;
+	cout << "---------- MAIN MENU ----------" << endl;
         cout << "           01. NEW ACCOUNT" << endl;
         cout << "           02. DEPOSIT" << endl;
         cout << "           03. WITHDRAW" << endl;
@@ -531,8 +530,8 @@ int main() {
         case '4': 
             cout << "\n\n\t Enter The account No. : ";
             cin >> id;   
-			display_actInfo(id);
-			break;
+	    display_actInfo(id);
+	    break;
         case '5': 
             close_account();
 			break;
