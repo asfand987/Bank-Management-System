@@ -52,10 +52,10 @@ account(int id, char actHolderName, int balance, char type) {
 ***/
 void account::create_account()  {
 
-	cout  <<  "\n       Enter The account No. :";
+	cout  <<  "\n         Enter The account No. : ";
 	cin >> id;
 	
-    cout << "\n\n       Enter The Name of The account Holder : ";
+    cout << "\n         Enter The Name of The account Holder : ";
 	cin.ignore();
 	cin.getline(actHolderName,50);
 	
@@ -70,7 +70,7 @@ void account::create_account()  {
     cout << "\n         Enter Initial Deposit Amount: ";
     cin >> balance;
 
-    cout << "\n         Deposit Amount: " << balance << " Successful." << endl;
+    cout << "\n         Deposit Amount: " << balance << ", Successful." << endl;
     cout << "\n         Press Any Key To Continue...";
 
 }
@@ -125,12 +125,12 @@ void account::withdraw(int n) {
     if(checkValue < 0) {
         
         checkValue = checkValue + n;
-        cout << "      Withdrawal Failed Due To Insufficient Funds, Press Any Key To Continue...";
+        cout << "         Withdrawal Failed Due To Insufficient Funds, Press Any Key To Continue..." << endl;
     }
     else {
         balance = checkValue;
-        cout << balance << endl;
-        cout <<"      Withdrawal Successful, Press Any Key To Continue...";
+        cout << "         Withdrawal Successful, New Balance: " << balance << endl;
+        cout << "         Press Any Key To Continue..." << endl;
     }
 };
 
@@ -141,30 +141,28 @@ void account::withdraw(int n) {
 void account::modify() {
     char ch;
     
-    cout << "Do You Want To Change Your Account No.? (y/n): ";
+    cout << "       Do You Want To Change Your Account No.? (y/n): ";
     cin >> ch;
 
     if(ch == 'y') {
-        //int &i = acnt;
-        //int temp;
-        cout << "Enter New Account No. : ";
+
+        cout << "       Enter New Account No. : ";
         cin >> id;
-        cout << "Account No. Successfully Changed To: " << id << endl;
-        //acnt = i;
-        //cout << "Press Any Key To Continue...";
+        cout << "       Account No. Successfully Changed To: " << id << endl;
+
     }
     cin.ignore();
     
-    cout <<"Do You Want To Change The Account Holder's Name? (y/n): ";
+    cout <<"       Do You Want To Change The Account Holder's Name? (y/n): ";
     cin >> ch;
 
     if(ch == 'y') {
-        cout << "Enter New Account Holder Name: ";
+        cout << "       Enter New Account Holder Name: ";
         cin >> actHolderName;
-        cout << "Account Holder Name Successully Changed. Press Any Key To Continue...";
+        cout << "       Account Holder Name Successully Changed. Press Any Key To Continue...";
     }
     else {
-        cout <<"Press Any Key To Continue..." << endl;
+        cout <<"       Press Any Key To Continue..." << endl;
     }
     
 };
@@ -175,7 +173,7 @@ void account::modify() {
 ***/
 void account::display_accounts() {
     cout << "--------------------------------------------" << endl;
-    cout << "               ACCOUNTS LIST:" << endl;
+    cout << "               ACCOUNT:" << endl;
     cout << "       Account ID: " << id << endl;
     cout << "       Account Holder Name: " << actHolderName << endl;
     cout << "       Account Type: " << type << endl;
@@ -278,7 +276,7 @@ void deposit_amount(int n) {
 
         if((ac.return_account() == n) && (n > 0)) {
 
-            cout << "       Enter Deposit Amount: " << endl;
+            cout << "         Enter Deposit Amount: ";
             cin >> amount;
 
             ac.depo(amount);
@@ -320,7 +318,7 @@ void withdraw_amount(int n) {
         
         if(ac.return_account() == n) {
 
-            cout << "Enter Amount You Would Like To Withdraw: ";
+            cout << "         Enter Amount You Would Like To Withdraw: ";
             cin >> withdraw_amnt;
             
             ac.withdraw(withdraw_amnt);
@@ -438,7 +436,7 @@ void modify_account() {
     fstream File;
     int id;
 
-    cout << "Enter The Account You Want To Modify: ";
+    cout << "       Enter The Account You Want To Modify: ";
     cin >> id;
 
 
@@ -452,7 +450,7 @@ void modify_account() {
            ac.modify();
        }
        else {
-           cout << "Account Does Not Exist, Press Any Key To Continue...";
+           cout << "        Account Does Not Exist, Press Any Key To Continue...";
        }
 
         //sets the position where the next character is to be inserted to prevent copys.
@@ -488,6 +486,8 @@ void display_all() {
 
 
 //-----------------------------------------------------------------------------------------------------------------------------
+
+
 int main() {
     //Main menu
 
@@ -503,10 +503,10 @@ int main() {
         cout << "           01. NEW ACCOUNT" << endl;
         cout << "           02. DEPOSIT" << endl;
         cout << "           03. WITHDRAW" << endl;
-        cout << "           04. BALANCE ENQUIRY" << endl;
+        cout << "           04. ACCOUNT INFORMATION" << endl;
         cout << "           05. CLOSE AN ACCOUNT" << endl;
         cout << "           06. MODIFY ACCOUNT" << endl;
-        cout << "           07. ALL ACCOUNT" << endl;
+        cout << "           07. ALL ACCOUNT LIST" << endl;
         cout << "           08. EXIT" << endl;
         cout << "-------------------------------" << endl;
 
@@ -543,7 +543,7 @@ int main() {
             display_all();
             break;
         case '8':   
-            cout << "Closing Application..." << endl;
+            cout << "Closing Application, goodbye..." << endl;
             exit(0);
 		default : cout<<"\a";
 		}
