@@ -8,25 +8,25 @@ using namespace std;
 
 class account {
 
-   int acnt;
+    int id; //change to id
     char actHolderName[50];
-    int deposit;
+    int balance;
     char type;   //checking or savings account.
 
 public:
 
 account() {
-    int acnt = 1;
+    int id = 0;
     char actHolderName;
-    int deposit = 0;
+    int balance = 0;
     char type;
     
 };
 
-account(int acnt, char actHolderName, int deposit, char type) {
-    acnt = acnt;
+account(int id, char actHolderName, int balance, char type) {
+    id = id;
     actHolderName = actHolderName;
-    deposit = deposit;
+    balance = balance;
     type = type;
 };
 
@@ -36,6 +36,7 @@ account(int acnt, char actHolderName, int deposit, char type) {
     void depo(int n);   //deposit
     void withdraw(int n);
     void modify();
+    void display_accounts();
 };
 
 //-------------------------------------------------------------------
@@ -43,26 +44,32 @@ account(int acnt, char actHolderName, int deposit, char type) {
 
 void account::create_account()
 {
-    int &temp = deposit;
+    //int &temp = debalanceposit;
     char tempCh;
 
 	cout  <<  "\n Enter The account No. :";
-	cin >> acnt;
+	cin >> id;
 	
     cout << "\n\n Enter The Name of The account Holder : ";
 	cin.ignore();
 	cin.getline(actHolderName,50);
 	
     cout << "\n Enter Type of The account (c/s) : ";
-	cin >> tempCh;
+	cin >> type;
 
-    if((tempCh != 'c') && (tempCh != 's')) {
+    if((type != 'c') && (type != 's')) {
         cout << "Incorrect Account Type Enterred, Please Enter Correct Type (c/s) : ";
         cin >> type;
     }
+
+    cout << "\n Enter Initial Deposit Amount: ";
+    cin >> balance;
+    cout << "\n Deposit Amount: " << balance << " Successful." << endl;
+    cout << "Press Any Key To Continue...";
+
 	//type = toupper(type);
 	
-    cout << "\n Enter The Initial amount(>=500 for Saving and >=1000 for current ) : ";
+    /*cout << "\n Enter The Initial amount(>=500 for Saving and >=1000 for current ) : ";
 	cin >> temp;
     if((type == 'c') && (temp >= 1000)) {
 	    cout << "\n\n\n Current Account Created......Press Any Key To Continue..." << endl;
@@ -84,30 +91,30 @@ void account::create_account()
     }
     else {
         cout << "Error, Please Press Any Key To Continue...";
-    }
+    }*/
 
 }
 
 int account::return_account() const {
-    return acnt;
+    return id;
 }
 
 void account::show_account() const {
     cout << "--------------------------------" << endl;
 	cout << "        BALANCE ENQUIRY" << endl;
     cout << endl;
-    cout << "        Account: " << acnt << endl;
+    cout << "        Account ID: " << id << endl;
     cout << "        Account Holder Name: " << actHolderName << endl;
     cout << "        Account Type: " << type << endl;
     cout << endl;
-    cout << "        BALANCE: " << deposit << endl;
+    cout << "        BALANCE: " << balance << endl;
     cout << "--------------------------------" << endl;
 }
 
 void account::depo(int n) {
     //cout << deposit << "1 " << endl;
-    deposit = deposit + n;
-    cout << "Amount Successfully Deposited, New Balance : " << deposit << endl;
+    balance = balance + n;
+    cout << "Amount Successfully Deposited, New Balance : " << balance << endl;
     cout << "Press Any Key To Continue...";
     //cout << deposit << "2 " << endl;
     //cout<<"\n\n\t Record Updated, Press Any Key To Continue...";
@@ -115,7 +122,7 @@ void account::depo(int n) {
 
 void account::withdraw(int n) {
     //int temp = deposit;
-    int &checkValue = deposit;
+    int &checkValue = balance;
     checkValue = checkValue - n;
     //deposit = deposit - n;
 
@@ -126,8 +133,8 @@ void account::withdraw(int n) {
         cout << "      Withdrawal Failed Due To Insufficient Funds, Press Any Key To Continue...";
     }
     else {
-        deposit = checkValue;
-        cout << deposit << endl;
+        balance = checkValue;
+        cout << balance << endl;
         cout <<"      Withdrawal Successful, Press Any Key To Continue...";
     }
 };
@@ -142,8 +149,8 @@ void account::modify() {
         //int &i = acnt;
         //int temp;
         cout << "Enter New Account No. : ";
-        cin >> acnt;
-        cout << "Account No. Successfully Changed To: " << acnt << endl;
+        cin >> id;
+        cout << "Account No. Successfully Changed To: " << id << endl;
         //acnt = i;
         //cout << "Press Any Key To Continue...";
     }
@@ -160,6 +167,16 @@ void account::modify() {
     
 };
 
+void account::display_accounts() {
+    cout << "--------------------------------" << endl;
+    cout << "ACCOUNTS LIST" << endl;
+    cout << "Account ID: " << id << endl;
+    cout << "Account Holder Name: " << actHolderName << endl;
+    cout << "Account Type: " << type << endl;
+    cout << "--------------------------------" << endl;
+    cout << endl;
+}   
+
 
 //----------------------------------------------------------------------
 
@@ -171,6 +188,7 @@ void withdraw_amount(int);
 void close_account();
 void modify_account();
 void transfer_money();
+void display_all();
 
 void write_account() {
     account ac;
@@ -288,7 +306,6 @@ void display_balance(int n) {
 }
 
 //5
-
 //6
 void close_account() {
     account ac;
@@ -363,6 +380,20 @@ void modify_account() {
 
 }
 
+//
+void display_all() {
+    account ac;
+    ifstream File;
+
+    File.open("account.dat",ios::binary);
+
+    while(File.read(reinterpret_cast<char *> (&ac), sizeof(account))) {
+        ac.display_accounts();   
+    }
+
+    File.close();
+    cout << "Press Any Key To Continue..." << endl;
+}
 void intro()
 {
 	cout << "\n\n\n\t  BANK";
@@ -391,7 +422,8 @@ int main() {
         cout << "           04. BALANCE ENQUIRY" << endl;
         cout << "           05. CLOSE AN ACCOUNT" << endl;
         cout << "           06. MODIFY ACCOUNT" << endl;
-        cout << "           07. EXIT" << endl;
+        cout << "           07. ALL ACCOUNT" << endl;
+        cout << "           08. EXIT" << endl;
         cout << "-------------------------------" << endl;
 
         //User inputs
@@ -426,7 +458,10 @@ int main() {
         case '6': 
             modify_account();
             break;
-        case '7':   
+        case '7':
+            display_all();
+            break;
+        case '8':   
             cout << "Closing Application..." << endl;
             exit(0);
 		default : cout<<"\a";
