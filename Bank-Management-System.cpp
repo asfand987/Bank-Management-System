@@ -15,16 +15,35 @@ class account {
 
 
 public:
+
+account() {
+    int acnt = 0;
+    char actHolderName;
+    int deposit = 0;
+    char type;
+    
+};
+
+account(int acnt, char actHolderName, int deposit, char type) {
+    acnt = acnt;
+    actHolderName = actHolderName;
+    deposit = deposit;
+    type = type;
+};
+
     void create_account(); 
     int return_account() const;
     void show_account() const;
     void depo(int);   //deposit
     void withdraw(int);
     void modify();
+    void transfer(int);
+    void t(account &account, int balance);
    
 };
 
 //-------------------------------------------------------------------
+
 
 void account::create_account()
 {
@@ -99,7 +118,7 @@ void account::depo(int n) {
 }
 
 void account::withdraw(int n) {
-    int temp = deposit;
+    //int temp = deposit;
     int &checkValue = deposit;
     checkValue = checkValue - n;
     //deposit = deposit - n;
@@ -130,20 +149,43 @@ void account::modify() {
         cin >> acnt;
         cout << "Account No. Successfully Changed To: " << acnt << endl;
         //acnt = i;
-        cout << "Press Any Key To Continue...";
+        //cout << "Press Any Key To Continue...";
     }
     cin.ignore();
     
     cout <<"Do You Want To Change The Account Holder's Name? (y/n): ";
     cin >> ch;
+
     if(ch == 'y') {
         cout << "Enter New Account Holder Name: ";
         cin >> actHolderName;
         cout << "Account Holder Name Successully Changed. Press Any Key To Continue...";
     }
-    else {
-        cout << "Should Be No...";
-    }
+    
+}
+
+void account::transfer(int amount) {
+    int &checkValue = deposit;
+    int val = -amount;
+    checkValue = checkValue + val;
+    //cout << checkValue << " " << amount;
+    deposit = checkValue;
+}
+
+void t(account a, int bal) {
+    //cout << "Deposit1 : " << deposit << endl;
+   /* int &balance = deposit;
+    balance = balance - bal;
+    deposit = balance;
+    cout << balance << endl;
+    
+    int &balance2 = a.deposit;
+    balance2 = balance2 + bal;  
+    a.deposit = balance2;
+    cout << balance2 << endl;*/
+    deposit = bal;
+    a.deposit = a.deposit - bal;
+  
 }
 //----------------------------------------------------------------------
 
@@ -154,6 +196,7 @@ void deposit_amount(int);
 void withdraw_amount(int);
 void close_account();
 void modify_account();
+void transfer_money();
 
 void write_account() {
     account ac;
@@ -270,6 +313,60 @@ void display_balance(int n) {
     inFile.close(); 
 }
 
+//5
+void transfer_money() {
+    account ac, ac2;
+    int acnt1, acnt2;
+    int val;
+
+    fstream File;
+    fstream File2;
+
+    cout << "Enter Your Account: ";
+    cin >> acnt1;
+
+    cout << "Enter Other Account: ";
+    cin >> acnt2;
+
+    File.open("account.dat", ios::binary|ios::in|ios::out);
+    File2.open("account.dat", ios::binary|ios::in|ios::out);
+
+    cout << "Enter Amount You Would Like To Transer: ";
+    cin >> val;
+
+    while(!File.eof() &&!File2.eof()) {
+     
+       File.read(reinterpret_cast<char *> (&ac), sizeof(account));
+       File2.read(reinterpret_cast<char *> (&ac2), sizeof(account));
+
+       if(ac.return_account() == acnt1) {
+           cout << "Yes It's Working" << endl;
+       }
+
+       if(ac2.return_account() == acnt2) {
+           cout << "Yup" << endl;
+       }
+
+       ac.t(ac2, val); 
+
+       int pos2 = (-1)*static_cast<int>(sizeof(ac2)); //...
+	   File2.seekp(pos2,ios::cur);
+       
+       int pos = (-1)*static_cast<int>(sizeof(ac)); //...
+	   File.seekp(pos,ios::cur);       //sets the position where the next character is to be inserted to prevent copys.
+       //found = true;
+       File.write(reinterpret_cast<char *> (&ac), sizeof(account));
+       File2.write(reinterpret_cast<char *> (&ac2), sizeof(account));
+       
+       //File.write(reinterpret_cast<char *> (&ac2), sizeof(account));
+
+       break; 
+     }
+
+    File.close();
+    File2.close();
+}
+
 //6
 void close_account() {
     account ac;
@@ -360,6 +457,7 @@ int main() {
 
     char ch;
 	int num;
+    int account;
 	intro();
 
 	do {
@@ -403,6 +501,9 @@ int main() {
 			break;
         case '5': 
             //Must only be possible if two accounts exists.
+            //int account;
+            transfer_money();
+            break;
         case '6': 
             close_account();
 			break;
