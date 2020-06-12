@@ -373,7 +373,7 @@ void deposit_amount()
 
             //sets the position where the next character is to be inserted to prevent copys.
             int pos = (-1)*static_cast<int>(sizeof(ac));
-			File.seekp(pos,ios::cur);   
+	    File.seekp(pos,ios::cur);   
 
             found = true;
             File.write(reinterpret_cast<char *> (&ac), sizeof(account));
