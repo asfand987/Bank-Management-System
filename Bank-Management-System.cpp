@@ -386,7 +386,7 @@ void deposit_amount()
 
     if(!found) 
     {
-        cout << "         Record Does Not Exist... Press Any Key To Continue...";
+        cout << "         Record Does Not Exist... Press Any Key To Continue..." << endl;
     }
 }
 
@@ -469,7 +469,7 @@ void withdraw_amount()
     
     if(!found) 
     {
-        cout << "Record Does Not Exist... Press Any Key To Continue...";
+        cout << "Record Does Not Exist... Press Any Key To Continue..." << endl;
     }
 }
 
@@ -479,14 +479,32 @@ void withdraw_amount()
  * Function used to display all information about the account required. 
  * @show_account() function used from Account class.
 ***/
-void display_actInfo(int n) 
+void display_actInfo() 
 {
     account ac;
     ifstream inFile;
+    int id;
+    bool isValid = false;
+    bool found = false;
 
     inFile.open("account.dat",ios::binary);
-    
-    bool found = false;
+
+    cout << "\n\n\t Enter The account No. : ";
+
+    while (!isValid) 
+    {
+        cin >> id;
+
+        if(id <= 0) {
+            cin.clear();
+            cin.ignore(256,'\n');
+            cout << "         Error, Please Enter Correct Account (Integer): ";
+        }
+        else 
+        {
+            isValid = true;
+        }
+    }
 
     if(!inFile) {
         cout<<"File could not be open !! Press any Key To Continue...";
@@ -498,7 +516,7 @@ void display_actInfo(int n)
     //reinterpret_cast<char *> (&ac) = treating &ac as a char 
     while(inFile.read(reinterpret_cast<char *> (&ac), sizeof(account)))  
     {
-        if(ac.return_account() == n) 
+        if(ac.return_account() == id) 
         {
             found = true;
             ac.show_account(); 
@@ -526,10 +544,25 @@ void close_account()
 {
     account ac;
     int id;
+    bool isValid = false;
     char confirm;
 
     cout << "Enter Account You Want To Delete: ";
-    cin >> id;
+
+    while (!isValid) 
+    {
+        cin >> id;
+
+        if(id <= 0) {
+            cin.clear();
+            cin.ignore(256,'\n');
+            cout << "         Error, Please Enter Correct Account (Integer): ";
+        }
+        else 
+        {
+            isValid = true;
+        }
+    }
 
     cout << "Are You Sure You Want To Delete Your Account? (y/n)" << endl;
     cin >> confirm;
@@ -576,15 +609,30 @@ void modify_account()
     account ac;
     fstream File;
     int id;
+    bool isValid = false;
 
     cout << "       Enter The Account You Want To Modify: ";
-    cin >> id;
+    
+    while (!isValid) 
+    {
+        cin >> id;
+
+        if(id <= 0) {
+            cin.clear();
+            cin.ignore(256,'\n');
+            cout << "         Error, Please Enter Correct Account (Integer): ";
+        }
+        else 
+        {
+            isValid = true;
+        }
+    }
 
 
     File.open("account.dat", ios::binary|ios::in|ios::out);
 
-     while(!File.eof()) 
-     {
+    while(!File.eof()) 
+    {
 
        File.read(reinterpret_cast<char *> (&ac), sizeof(account));
 
@@ -600,7 +648,6 @@ void modify_account()
         //sets the position where the next character is to be inserted to prevent copys.
         int pos = (-1)*static_cast<int>(sizeof(ac));
 		File.seekp(pos,ios::cur);     
-       
         File.write(reinterpret_cast<char *> (&ac), sizeof(account));
         
         break;
@@ -672,10 +719,8 @@ int main()
             withdraw_amount();
             break;
         case '4': 
-            cout << "\n\n\t Enter The account No. : ";
-            cin >> id;   
-	        display_actInfo(id);
-	    break;
+            display_actInfo();
+	        break;
         case '5': 
             close_account();
 			break;
