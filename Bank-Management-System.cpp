@@ -317,14 +317,12 @@ void deposit_amount()
     account ac;
     fstream File;
     int amount;
-    int id;// = n;
+    int id;
+    bool found = false;
+    bool isValid = false;
 
     File.open("account.dat", ios::binary|ios::in|ios::out);
-    bool found = false;
-
-    bool isValid = false;
-    //bool idCheck = false;
-
+    
     cout << "\n\n\t Enter The account No. : ";
 
     while (!isValid) 
@@ -354,7 +352,6 @@ void deposit_amount()
         {
 
             cout << "         Enter Deposit Amount: ";
-            //cin >> amount;
 
             while(!isValid) 
             {
@@ -398,27 +395,65 @@ void deposit_amount()
  * Function used to withdraw money out of the account. 
  * @withdraw(int) function used from Account class.
 ***/
-void withdraw_amount(int n) 
+void withdraw_amount() 
 {
     account ac; 
-    int withdraw_amnt;
     fstream File;
+    int amount;
+    int id;
+    bool isValid;
+    
 
     File.open("account.dat", ios::binary|ios::in|ios::out);
     bool found = false;
+
+    cout << "\n\n\t Enter The account No. : ";
+    cin >> id;
+
+    while (!isValid) 
+    {
+        cin >> id;
+
+        if(id <= 0) {
+            cin.clear();
+            cin.ignore(256,'\n');
+            cout << "         Error, Please Enter Correct Account (Integer): ";
+        }
+        else 
+        {
+            isValid = true;
+        }
+    }
+
+    isValid = false;
 
     while(!File.eof()) 
     {
         
         File.read(reinterpret_cast<char *> (&ac), sizeof(account));
         
-        if(ac.return_account() == n) 
+        if(ac.return_account() == id) 
         {
 
             cout << "         Enter Amount You Would Like To Withdraw: ";
-            cin >> withdraw_amnt;
             
-            ac.withdraw(withdraw_amnt);
+            while(!isValid) 
+            {
+                cin >> amount;
+
+                if(amount <= 0) 
+                {
+                    cin.clear();
+                    cin.ignore(256,'\n');
+                    cout << "         Error, Please Enter An Amount > 0 : ";
+                }
+                else 
+                {
+                    isValid = true;
+                }
+            }
+            
+            ac.withdraw(amount);
 
             int pos = (-1)*static_cast<int>(sizeof(ac));
 			File.seekp(pos,ios::cur);       //sets the position where the next character is to be inserted to prevent copys.
@@ -631,16 +666,10 @@ int main()
 			write_account();
 			break;
         case '2': 
-            /*cout << "\n\n\t Enter The account No. : ";
-            cin >> id;
-            deposit_amount(id);
-    */
             deposit_amount();
             break;
         case '3': 
-            cout << "\n\n\t Enter The account No. : ";
-            cin >> id;
-            withdraw_amount(id);
+            withdraw_amount();
             break;
         case '4': 
             cout << "\n\n\t Enter The account No. : ";
