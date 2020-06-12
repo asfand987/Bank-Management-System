@@ -720,7 +720,7 @@ int main()
             break;
         case '4': 
             display_actInfo();
-	        break;
+	    break;
         case '5': 
             close_account();
 	    break;
