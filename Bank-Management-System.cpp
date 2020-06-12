@@ -46,23 +46,13 @@ account(int id, char actHolderName, int balance, char type) {
 //------------------------------------------------------------------------------------------------------------------------------
 // Functions with access to Account.
 
-bool isNumber(string s) 
-{ 
-    for (int i = 0; i < s.length(); i++) 
-        if (isdigit(s[i]) == false) 
-            return false; 
-  
-    return true; 
-}
-
 /***    
  * Function which displays the interface to the user who can then input the required values in order to make a new account.
  * Function is called by @write_account() method.
 ***/
-void account::create_account()  {
-
+void account::create_account()  
+{
     cout  <<  "\n         Enter The Account No. : ";
-    //cin >> id;
 
     bool inputValid = false;
 
@@ -132,8 +122,8 @@ void account::create_account()  {
 /***
  * Returns the id of the account.
 ***/
-int account::return_account() const {
-
+int account::return_account() const 
+{
     return id;
 }
 
@@ -141,8 +131,8 @@ int account::return_account() const {
  * Function which displays all the information about the account. 
  * Function is called by @display_actInfo(int) which is used in @main.
 ***/
-void account::show_account() const {
-
+void account::show_account() const 
+{
     cout << "--------------------------------" << endl;
     cout << "        ACCOUNT ENQUIRY" << endl;
     cout << endl;
@@ -152,18 +142,17 @@ void account::show_account() const {
     cout << endl;
     cout << "        BALANCE: " << balance << endl;
     cout << "--------------------------------" << endl;
-
 }
 
 /***
  * Function deposits amount that the user entered into the account.
  * Function is called by @deposit_amount(int) which is used in @main.
 ***/
-void account::depo(int n) {
-
+void account::depo(int n) 
+{
     balance = balance + n;
-    cout << "     Amount Successfully Deposited, New Balance : " << balance << endl;
-    cout << "     Press Any Key To Continue...";
+    cout << "         Amount Successfully Deposited, New Balance : " << balance << endl;
+    cout << "         Press Any Key To Continue...";
     
 };
 
@@ -171,8 +160,8 @@ void account::depo(int n) {
  * Function withdraws money from the account.
  * Function is called by @withdraw_amount(int) which is used in @main.
 ***/
-void account::withdraw(int n) {
-    
+void account::withdraw(int n) 
+{    
     int &checkValue = balance;
     checkValue = checkValue - n;
 
@@ -332,6 +321,8 @@ void deposit_amount(int n)
     File.open("account.dat", ios::binary|ios::in|ios::out);
     bool found = false;
 
+    bool isValid = false;
+
     while(!File.eof()) 
     {
 
@@ -341,12 +332,28 @@ void deposit_amount(int n)
         {
 
             cout << "         Enter Deposit Amount: ";
-            cin >> amount;
+            //cin >> amount;
+
+            while(!isValid) 
+            {
+                cin >> amount;
+
+                if(amount <= 0) 
+                {
+                    cin.clear();
+                    cin.ignore(256,'\n');
+                    cout << "         Error, Please Enter An Amount > 0 : ";
+                }
+                else 
+                {
+                    isValid = true;
+                }
+            }
 
             ac.depo(amount);
 
             //sets the position where the next character is to be inserted to prevent copys.
-            int pos=(-1)*static_cast<int>(sizeof(ac));
+            int pos = (-1)*static_cast<int>(sizeof(ac));
 			File.seekp(pos,ios::cur);   
 
             found = true;
