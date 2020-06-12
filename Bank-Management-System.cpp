@@ -46,33 +46,87 @@ account(int id, char actHolderName, int balance, char type) {
 //------------------------------------------------------------------------------------------------------------------------------
 // Functions with access to Account.
 
+bool isNumber(string s) 
+{ 
+    for (int i = 0; i < s.length(); i++) 
+        if (isdigit(s[i]) == false) 
+            return false; 
+  
+    return true; 
+}
+
 /***    
  * Function which displays the interface to the user who can then input the required values in order to make a new account.
  * Function is called by @write_account() method.
 ***/
 void account::create_account()  {
 
-    cout  <<  "\n         Enter The account No. : ";
-    cin >> id;
+    cout  <<  "\n         Enter The Account No. : ";
+    //cin >> id;
+
+    bool inputValid = false;
+
+    while (!inputValid) 
+    {
+        cin >> id;
+
+        if(!std::cin.fail() && (std::cin.peek()==EOF || std::cin.peek()=='\n'))  
+        {
+            inputValid = true;
+        }
+        else
+        {
+            cin.clear();
+            cin.ignore(256,'\n');
+            cout << "         Error, Please Enter A number: ";
+        }
+    }
+
+    inputValid = false;
 	
-    cout << "\n         Enter The Name of The account Holder : ";
+    cout << "\n         Enter The Name of The Account Holder : ";
     cin.ignore(); 
     cin.getline(actHolderName,50);
 	
-    cout << "\n         Enter Type of The account (c/s) : ";
-    cin >> type;
+    cout << "\n         Enter Type of The Account (c/s) : ";
 
-    if((type != 'c') && (type != 's')) {
-        cout << "       Incorrect Account Type Enterred, Please Enter Correct Type (c/s) : ";
+    while (!inputValid) 
+    {
         cin >> type;
+
+        if((type != 'c') && (type != 's')) 
+        {
+            cin.clear();
+            cin.ignore(256,'\n');
+            cout << "         Incorrect Account Type Enterred, Please Enter Correct Type (c/s) : ";
+        }
+        else 
+        {
+            inputValid = true;
+        }
     }
 
+    inputValid = false;
+    
     cout << "\n         Enter Initial Deposit Amount: ";
-    cin >> balance;
 
-    cout << "\n         Deposit Amount: " << balance << ", Successful." << endl;
-    cout << "\n         Press Any Key To Continue...";
+    while (!inputValid) 
+    {
+        cin >> balance;
 
+        if(balance <= 0) 
+        {
+            cin.clear();
+            cin.ignore(256,'\n');
+            cout << "         Error, Please Enter An Intital Deposit Amount of > 0 : ";
+        }
+        else 
+        {
+            cout << "\n         Deposit Amount: " << balance << ", Successful." << endl;
+            cout << "\n         Press Any Key To Continue...";
+            inputValid = true;
+        }
+    }
 }
 
 /***
@@ -122,11 +176,13 @@ void account::withdraw(int n) {
     int &checkValue = balance;
     checkValue = checkValue - n;
 
-    if(checkValue < 0) {    
+    if(checkValue < 0) 
+    {    
         checkValue = checkValue + n;
         cout << "         Withdrawal Failed Due To Insufficient Funds, Press Any Key To Continue..." << endl;
     }
-    else {
+    else 
+    {
         balance = checkValue;
         cout << "         Withdrawal Successful, New Balance: " << balance << endl;
         cout << "         Press Any Key To Continue..." << endl;
@@ -137,13 +193,15 @@ void account::withdraw(int n) {
  * Function which allows account holder to modify details about the account owned.
  * Function is used in @modify_account() which is used in @main.
 ***/
-void account::modify() {
+void account::modify() 
+{
     char ch;
     
     cout << "       Do You Want To Change Your Account No.? (y/n): ";
     cin >> ch;
 
-    if(ch == 'y') {
+    if(ch == 'y') 
+    {
 
         cout << "       Enter New Account No. : ";
         cin >> id;
@@ -155,12 +213,14 @@ void account::modify() {
     cout <<"       Do You Want To Change The Account Holder's Name? (y/n): ";
     cin >> ch;
 
-    if(ch == 'y') {
+    if(ch == 'y') 
+    {
         cout << "       Enter New Account Holder Name: ";
         cin >> actHolderName;
         cout << "       Account Holder Name Successully Changed. Press Any Key To Continue...";
     }
-    else {
+    else 
+    {
         cout <<"       Press Any Key To Continue..." << endl;
     }
     
@@ -170,7 +230,8 @@ void account::modify() {
  * Function displays a list of all accounts currently in the database.
  * Function is called by @display_all() which is used in @main.
 ***/
-void account::display_accounts() {
+void account::display_accounts() 
+{
     cout << "--------------------------------------------" << endl;
     cout << "               ACCOUNT:" << endl;
     cout << "       Account ID: " << id << endl;
@@ -231,7 +292,7 @@ void display_all();
 ***/
 void intro()
 {
-    cout << "\n\n\n\t  BANK";
+    cout << "\n\n\n\t   BANK";
     cout << "\n\n\tMANAGEMENT";
     cout << "\n\n\t  SYSTEM";
     cout << "\n\n\n\nMADE BY : ASFAND KHAN";
@@ -244,7 +305,8 @@ void intro()
  * 01.
  * Function which wrties the data that the user entered in @create_account() into the "account.dat" file.
 ***/
-void write_account() {
+void write_account() 
+{
     account ac;
     ofstream outFile;
 
@@ -261,7 +323,8 @@ void write_account() {
  * Function used to deposit money into the account. 
  * @depo(int) function used from Account class.
 ***/
-void deposit_amount(int n) {
+void deposit_amount(int n) 
+{
     account ac;
     int amount;
     fstream File;
@@ -269,11 +332,13 @@ void deposit_amount(int n) {
     File.open("account.dat", ios::binary|ios::in|ios::out);
     bool found = false;
 
-    while(!File.eof()) {
+    while(!File.eof()) 
+    {
 
         File.read(reinterpret_cast<char *> (&ac), sizeof(account));
 
-        if((ac.return_account() == n) && (n > 0)) {
+        if((ac.return_account() == n) && (n > 0)) 
+        {
 
             cout << "         Enter Deposit Amount: ";
             cin >> amount;
@@ -293,7 +358,8 @@ void deposit_amount(int n) {
 
     File.close();
 
-    if(!found) {
+    if(!found) 
+    {
         cout << "Record Does Not Exist... Press Any Key To Continue...";
     }
 }
@@ -303,7 +369,8 @@ void deposit_amount(int n) {
  * Function used to withdraw money out of the account. 
  * @withdraw(int) function used from Account class.
 ***/
-void withdraw_amount(int n) {
+void withdraw_amount(int n) 
+{
     account ac; 
     int withdraw_amnt;
     fstream File;
@@ -311,11 +378,13 @@ void withdraw_amount(int n) {
     File.open("account.dat", ios::binary|ios::in|ios::out);
     bool found = false;
 
-    while(!File.eof()) {
+    while(!File.eof()) 
+    {
         
         File.read(reinterpret_cast<char *> (&ac), sizeof(account));
         
-        if(ac.return_account() == n) {
+        if(ac.return_account() == n) 
+        {
 
             cout << "         Enter Amount You Would Like To Withdraw: ";
             cin >> withdraw_amnt;
@@ -334,7 +403,8 @@ void withdraw_amount(int n) {
 
     File.close();
     
-    if(!found) {
+    if(!found) 
+    {
         cout << "Record Does Not Exist... Press Any Key To Continue...";
     }
 }
@@ -345,7 +415,8 @@ void withdraw_amount(int n) {
  * Function used to display all information about the account required. 
  * @show_account() function used from Account class.
 ***/
-void display_actInfo(int n) {
+void display_actInfo(int n) 
+{
     account ac;
     ifstream inFile;
 
@@ -363,14 +434,16 @@ void display_actInfo(int n) {
     //reinterpret_cast<char *> (&ac) = treating &ac as a char 
     while(inFile.read(reinterpret_cast<char *> (&ac), sizeof(account)))  
     {
-        if(ac.return_account() == n) {
+        if(ac.return_account() == n) 
+        {
             found = true;
             ac.show_account(); 
         }
       
 	}
 
-    if(found == false) {
+    if(found == false) 
+    {
          cout << endl;
          cout << "Account Does Not Exist In Database..." << endl;
     }
@@ -385,7 +458,8 @@ void display_actInfo(int n) {
  * 05.
  * Function used to close an account and remove all information about the account.
 ***/
-void close_account() {
+void close_account() 
+{
     account ac;
     int id;
     char confirm;
@@ -396,7 +470,8 @@ void close_account() {
     cout << "Are You Sure You Want To Delete Your Account? (y/n)" << endl;
     cin >> confirm;
 
-    if(confirm == 'n') {
+    if(confirm == 'n') 
+    {
         cout << "Account Will Not Be Deleted, Press Any Key To Return To Main Menu...";
         return;
     }
@@ -410,8 +485,10 @@ void close_account() {
     //start at first pos.
     inFile.seekg(0,ios::beg);             
     
-    while(inFile.read(reinterpret_cast<char *> (&ac), sizeof(account))) {
-        if(ac.return_account() != id) {
+    while(inFile.read(reinterpret_cast<char *> (&ac), sizeof(account))) 
+    {
+        if(ac.return_account() != id) 
+        {
             newFile.write(reinterpret_cast<char *> (&ac), sizeof(account));
         }
     }
@@ -430,7 +507,8 @@ void close_account() {
  * Function used to modify a account.
  * Funcion calles @modify() from the account class.
 ***/
-void modify_account() {
+void modify_account() 
+{
     account ac;
     fstream File;
     int id;
@@ -441,14 +519,17 @@ void modify_account() {
 
     File.open("account.dat", ios::binary|ios::in|ios::out);
 
-     while(!File.eof()) {
+     while(!File.eof()) 
+     {
 
        File.read(reinterpret_cast<char *> (&ac), sizeof(account));
 
-       if(ac.return_account() == id) {
+       if(ac.return_account() == id) 
+       {
            ac.modify();
        }
-       else {
+       else 
+       {
            cout << "        Account Does Not Exist, Press Any Key To Continue...";
        }
 
@@ -469,13 +550,15 @@ void modify_account() {
  * Function used to display a list of all accounts in the database.
  * Funcion calles @display_accounts() from the account class.
 ***/
-void display_all() {
+void display_all() 
+{
     account ac;
     ifstream File;
 
     File.open("account.dat",ios::binary);
 
-    while(File.read(reinterpret_cast<char *> (&ac), sizeof(account))) {
+    while(File.read(reinterpret_cast<char *> (&ac), sizeof(account))) 
+    {
         ac.display_accounts();   
     }
 
@@ -487,7 +570,8 @@ void display_all() {
 //-----------------------------------------------------------------------------------------------------------------------------
 
 
-int main() {
+int main() 
+{
     //Main menu
 
     char ch;
