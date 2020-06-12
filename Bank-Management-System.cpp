@@ -312,23 +312,45 @@ void write_account()
  * Function used to deposit money into the account. 
  * @depo(int) function used from Account class.
 ***/
-void deposit_amount(int n) 
+void deposit_amount() 
 {
     account ac;
-    int amount;
     fstream File;
+    int amount;
+    int id;// = n;
 
     File.open("account.dat", ios::binary|ios::in|ios::out);
     bool found = false;
 
     bool isValid = false;
+    //bool idCheck = false;
+
+    cout << "\n\n\t Enter The account No. : ";
+
+    while (!isValid) 
+    {
+        cin >> id;
+
+        if(id <= 0) {
+            cin.clear();
+            cin.ignore(256,'\n');
+            cout << "         Error, Please Enter Correct Account (Integer): ";
+        }
+        else 
+        {
+            isValid = true;
+        }
+    }
+
+    isValid = false;
+    
 
     while(!File.eof()) 
     {
 
         File.read(reinterpret_cast<char *> (&ac), sizeof(account));
 
-        if((ac.return_account() == n) && (n > 0)) 
+        if((ac.return_account() == id) && (id > 0)) 
         {
 
             cout << "         Enter Deposit Amount: ";
@@ -367,7 +389,7 @@ void deposit_amount(int n)
 
     if(!found) 
     {
-        cout << "Record Does Not Exist... Press Any Key To Continue...";
+        cout << "         Record Does Not Exist... Press Any Key To Continue...";
     }
 }
 
@@ -609,9 +631,11 @@ int main()
 			write_account();
 			break;
         case '2': 
-            cout << "\n\n\t Enter The account No. : ";
+            /*cout << "\n\n\t Enter The account No. : ";
             cin >> id;
             deposit_amount(id);
+    */
+            deposit_amount();
             break;
         case '3': 
             cout << "\n\n\t Enter The account No. : ";
@@ -621,7 +645,7 @@ int main()
         case '4': 
             cout << "\n\n\t Enter The account No. : ";
             cin >> id;   
-	    display_actInfo(id);
+	        display_actInfo(id);
 	    break;
         case '5': 
             close_account();
